@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Mesa</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .card {
+            flex: 1 1 calc(33.333% - 10px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Buscador de Mesa</h1>
+        <div class="form-group">
+            <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre...">
+        </div>
+        <div id="cardsContainer" class="card-container"></div>
+    </div>
+
+    <script>
+        const personas = [
+            { nombre: 'Luis Fernando Botero', numeroMesa: 1 },
+            { nombre: 'German Botero', numeroMesa: 1 },    
+            { nombre: 'Alba Lucia Londoño', numeroMesa: 1 },    
+            { nombre: 'Leonor Botero', numeroMesa: 1 },    
+            { nombre: 'Carolina Garcia', numeroMesa: 1 },    
+            { nombre: 'Maria Isabel Garcia', numeroMesa: 1 },    
+            { nombre: 'Alejandro Botero', numeroMesa: 1 },    
+            { nombre: 'Carolina Cadavid', numeroMesa: 1 },    
+            { nombre: 'Eddy Mari Morales', numeroMesa: 2 },    
+            { nombre: 'David Correa', numeroMesa: 2 },    
+            { nombre: 'Melissa Botero', numeroMesa: 2 },    
+            { nombre: 'Juan Jose(Jota)', numeroMesa: 2 },    
+            { nombre: 'Camilo Tabares', numeroMesa: 2 },    
+            { nombre: 'Mariana Botero', numeroMesa: 2 },    
+            { nombre: 'Daniel Valencia', numeroMesa: 2 },    
+            { nombre: 'Gloria Garcia Rojas', numeroMesa: 3 },
+            { nombre: 'Jose Nelson Tabares', numeroMesa: 3 },
+            { nombre: 'Marcela Tabares', numeroMesa: 3 },
+            { nombre: 'Jholman Steven Gomez', numeroMesa: 3 },
+            { nombre: 'Luz Helena Tobon', numeroMesa: 3 },
+            { nombre: 'Alberto Sepulveda', numeroMesa: 3 },
+            { nombre: 'Angela Sofia Sepulveda', numeroMesa: 3 },
+            { nombre: 'Adam ...', numeroMesa: 3 },
+            { nombre: 'Elvia Luz Giraldo', numeroMesa: 3 },
+            { nombre: 'Ricardo Montes', numeroMesa: 3 },
+            { nombre: 'Laura Plata', numeroMesa: 4 },
+            { nombre: 'Daniel Tabares', numeroMesa: 4 },
+            { nombre: 'Juan Lombana', numeroMesa: 4 },
+            { nombre: 'Jen Lomabana', numeroMesa: 4 },
+            { nombre: 'Sara Uribe', numeroMesa: 4 },
+            { nombre: 'Santiago Guzman', numeroMesa: 4 },
+            { nombre: 'Juan Esteban Muñoz', numeroMesa: 4 },
+            { nombre: 'Maria Camila Ruiz', numeroMesa: 4 },
+            { nombre: 'Laura Mejia', numeroMesa: 4 },
+            { nombre: 'Andres Mahecha Uribe', numeroMesa: 4 },
+            { nombre: 'Santiago Galeano', numeroMesa: 5 },
+            { nombre: 'Felipe Vasco', numeroMesa: 5 },
+            { nombre: 'Elizabeth Orozco', numeroMesa: 5 },
+            { nombre: 'Alejandra Tellez', numeroMesa: 5 },
+            { nombre: 'Laura Sierra', numeroMesa: 5 },
+            { nombre: 'Sara Rios', numeroMesa: 5 },
+            { nombre: 'Juan Felipe Duque', numeroMesa: 5 },
+            { nombre: 'Carolina Gomez', numeroMesa: 5 },
+            { nombre: 'Federico', numeroMesa: 5 },
+            { nombre: 'Felipe Buritica', numeroMesa: 5 },
+            { nombre: 'Carolina Santana', numeroMesa: 6 },
+            { nombre: 'Cristhian Trilleras', numeroMesa: 6 },
+            { nombre: 'Andrea Sarmiento', numeroMesa: 6 },
+            { nombre: 'Luisa Mejia', numeroMesa: 6 },
+            { nombre: 'Andrea Salazar', numeroMesa: 6 },
+            { nombre: 'Jhon ...', numeroMesa: 6 },
+            { nombre: 'Luisa Agudelo', numeroMesa: 6 },
+            { nombre: 'Mateo ...', numeroMesa: 6 },
+            { nombre: 'Cristhian Millan', numeroMesa: 7 },
+            { nombre: 'Claudia Salazar', numeroMesa: 7 },
+            { nombre: 'Andres Millan', numeroMesa: 7 },
+            { nombre: 'Camilo Ramirez', numeroMesa: 7 },
+            { nombre: 'Cindy Espinal', numeroMesa: 7 },
+            { nombre: 'Jose Vicente Millan', numeroMesa: 7 },
+            { nombre: 'Jose Vicente Millan', numeroMesa: 7 },
+            { nombre: 'Natalia Garrido', numeroMesa: 7 },
+            { nombre: 'Julian Isaza', numeroMesa: 7 },
+            { nombre: 'Adriana Agudelo', numeroMesa: 7 },
+        ];
+
+        function renderCards(filteredPersonas) {
+            const cardsContainer = document.getElementById('cardsContainer');
+            cardsContainer.innerHTML = '';
+
+            filteredPersonas.forEach(persona => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+
+                const cardBody = document.createElement('div');
+                cardBody.classList.add('card-body');
+
+                const cardTitle = document.createElement('h5');
+                cardTitle.classList.add('card-title');
+                cardTitle.textContent = persona.nombre;
+
+                const cardText = document.createElement('p');
+                cardText.classList.add('card-text');
+                cardText.textContent = `Mesa: ${persona.numeroMesa}`;
+
+                cardBody.appendChild(cardTitle);
+                cardBody.appendChild(cardText);
+                card.appendChild(cardBody);
+                cardsContainer.appendChild(card);
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('input', function(event) {
+            const searchTerm = event.target.value.toLowerCase();
+            const filteredPersonas = personas.filter(persona =>
+                persona.nombre.toLowerCase().includes(searchTerm)
+            );
+            renderCards(filteredPersonas);
+        });
+
+        renderCards(personas);
+    </script>
+</body>
+</html>
